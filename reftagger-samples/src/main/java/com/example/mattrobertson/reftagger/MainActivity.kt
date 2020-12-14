@@ -16,14 +16,11 @@ class MainActivity : AppCompatActivity() {
 		val tvMain = findViewById<TextView>(R.id.tvMain)
 		tvMain.movementMethod = LinkMovementMethod()
 
-		val refTagger = RefTagger.Builder()
-			.setDefaultVersion("ESV")
-			.useDialog()
-			.build()
+		val refTagger = RefTagger.Builder().build()
 
 		val editor = findViewById<EditText>(R.id.editor)
 		editor.doAfterTextChanged { text ->
-			tvMain.text = refTagger.autoTag(text.toString())
+			tvMain.text = refTagger.tag(text.toString())
 		}
 	}
 }

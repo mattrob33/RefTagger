@@ -62,7 +62,7 @@ class RefTagger private constructor(builder: Builder) {
         IGNORE_CLICKS
     }
 
-    fun autoTag(text: String): Spanned {
+    fun tag(text: String): Spanned {
         val sb = SpannableStringBuilder("")
 
         val matches = REFERENCE_REGEX.findAll(text).toList()

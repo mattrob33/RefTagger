@@ -23,7 +23,7 @@ class RefTaggerTest {
     @Test
     fun refTagger_spanned_matches_original_text() {
         val text = "The references Gen 1:17 and Rom 5:12-21 are both in here."
-        val spanned = refTagger.autoTag(text)
+        val spanned = refTagger.tag(text)
         assertEquals(text, spanned.toString())
     }
 }
