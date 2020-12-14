@@ -1,0 +1,3 @@
+include ':reftagger-samples'
+rootProject.name = "RefTagger"
+include ':reftagger'
