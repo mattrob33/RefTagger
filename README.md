@@ -12,7 +12,7 @@ val taggedText = refTagger.tag(text)
 aTextView.text = taggedText
 ```
 
-Note that for a TextView to allow clickable links, you must provide a movement method that can handle this. This is very straightforward.
+**Note:** for a TextView to allow clickable links, you must provide a movement method that can handle this. This is very straightforward.
 
 ```kotlin
 aTextView.movementMethod = LinkMovementMethod()
@@ -55,7 +55,7 @@ val refTagger = RefTagger.Builder()
                   .build()
 ```
 
-Note that only one click handling mechanism is allowed. If multiple mechanisms are provided, RefTagger will use the last one provided and ignore the others.
+**Note:** only one click handling mechanism is allowed. If multiple mechanisms are provided, RefTagger will use the last one provided and ignore the others.
 
 So in the code below, RefTagger will ignore clicks and *will not* launch an external browser or a dialog.
 
