@@ -1,5 +1,5 @@
 # RefTagger
-RefTagger is an Android library that transforms Bible references into clickable links, targetting the free BibleGateway API.
+RefTagger is an Android library that transforms Bible references into clickable links, targeting the free BibleGateway API.
 
 ## Transform References
 
@@ -10,6 +10,12 @@ val text = "The reference John 3:16-17 will become a link."
 val taggedText = refTagger.tag(text)
 
 aTextView.text = taggedText
+```
+
+Note that for a TextView to allow clickable links, you must provide a movement method that can handle this. This is very straightforward.
+
+```kotlin
+aTextView.movementMethod = LinkMovementMethod()
 ```
 
 ## Customizations
