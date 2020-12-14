@@ -6,7 +6,6 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
-import com.mattrobertson.reftagger.handler.ClickHandler
 import com.mattrobertson.reftagger.tagger.RefTagger
 
 class MainActivity : AppCompatActivity() {
@@ -17,17 +16,7 @@ class MainActivity : AppCompatActivity() {
 		val tvMain = findViewById<TextView>(R.id.tvMain)
 		tvMain.movementMethod = LinkMovementMethod()
 
-		val refTagger = RefTagger.Builder()
-			.setClickHandler(object : ClickHandler.ScriptureText() {
-				override fun onSuccess(ref: String, text: String) {
-
-				}
-
-				override fun onError(message: String) {
-
-				}
-			})
-			.build()
+		val refTagger = RefTagger.Builder().build()
 
 		val editor = findViewById<EditText>(R.id.editor)
 		editor.doAfterTextChanged { text ->
