@@ -28,7 +28,7 @@ class RefTagger private constructor(builder: Builder) {
 
     class Builder {
         internal var clickHandler: ClickHandler? = null
-        internal var handlerType = HandlerType.IGNORE_CLICKS
+        internal var handlerType = HandlerType.DIALOG
         internal var defaultVersion = "NIV"
 
         fun useDialog(): Builder {
@@ -38,6 +38,11 @@ class RefTagger private constructor(builder: Builder) {
 
         fun useExternalBrowser(): Builder {
             handlerType = HandlerType.WEB_BROWSER
+            return this
+        }
+
+        fun ignoreClicks(): Builder {
+            handlerType = HandlerType.IGNORE_CLICKS
             return this
         }
 
