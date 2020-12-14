@@ -33,7 +33,7 @@ fun fetchScriptureText(ref: String, version: String, clickHandler: ClickHandler.
             val text = getTextFromBibleGatewayApiResponse(response)
 
             scope.launch(Dispatchers.Main) {
-                clickHandler.onSuccess(text)
+                clickHandler.onSuccess(ref, text)
             }
         }
         else {

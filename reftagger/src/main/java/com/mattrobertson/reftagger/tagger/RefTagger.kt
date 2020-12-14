@@ -130,7 +130,7 @@ class RefTagger private constructor(builder: Builder) {
             }
             HandlerType.DIALOG -> {
                 val handler = object: ScriptureText() {
-                    override fun onSuccess(text: String) {
+                    override fun onSuccess(ref: String, text: String) {
                         val builder = AlertDialog.Builder(view.context)
                         val dialog = builder.setTitle(ref)
                             .setMessage(text)

@@ -10,7 +10,7 @@ sealed class ClickHandler {
     }
 
     abstract class ScriptureText: ClickHandler() {
-        abstract fun onSuccess(text: String)
+        abstract fun onSuccess(ref: String, text: String)
         abstract fun onError(message: String)
     }
 }
