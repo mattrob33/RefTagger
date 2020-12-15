@@ -17,11 +17,11 @@ aTextView.text = taggedText
 **Note:** For a TextView to respond to clickable links, you must provide a movement method that can handle this, such as Android's `LinkMovementMethod`.
 
 ```kotlin
-aTextView.movementMethod = LinkMovementMethod()
+aTextView.movementMethod = LinkMovementMethod.getInstance()
 ```
 
 ## Customizations
-By default RefTagger requests the NIV version of verses, but this can be customized in the builder.
+RefTagger requests the NIV version by default, but this can be changed in the builder.
 
 ```kotlin
 val refTagger = RefTagger.Builder()
@@ -29,7 +29,24 @@ val refTagger = RefTagger.Builder()
                   .build()
 ```
 
-The way that RefTagger responds to a click is extremely customizable. RefTagger can handle a link in 4 basic ways:
+RefTagger also allows customizing the text color and style (bold, italics, underline) of links.
+
+```kotlin
+val refTagger = RefTagger.Builder()
+                  .setLinkColor(Color.BLACK)
+                  .underlineLinks(false)
+                  .italicizeLinks(true)
+                  .boldLinks(true)
+                  .build()
+```
+
+**Note:** `TextView` shows a background highlight on link clicks by default. To remove this, set
+```kotlin
+aTextView.highlightColor = Color.TRANSPARENT
+```
+
+## Responding to clicks
+RefTagger can respond to a link click in 4 basic ways:
 
  1. Show an alert dialog with the reference and biblical text (default)
  ```kotlin
@@ -73,7 +90,7 @@ val refTagger = RefTagger.Builder()
                   .build()
 ```
 
-## Click Handlers
+## Custom Click Handlers
 RefTagger accepts a few different custom click handlers to provide more control over the way that the text is displayed.
 
  1. BibleGatewayURL
