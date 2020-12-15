@@ -1,4 +1,4 @@
-package com.mattrobertson.reftagger.utils
+package dev.mattrob.reftagger.utils
 
 /**
  * Generate the Bible Gateway URL for [reference]. This is the URL that should be provided to a web browser.

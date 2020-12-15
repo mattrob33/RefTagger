@@ -1,4 +1,4 @@
-package com.example.mattrobertson.reftagger
+package dev.example.mattrob.reftagger
 
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
@@ -6,7 +6,8 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
-import com.mattrobertson.reftagger.tagger.RefTagger
+import com.example.mattrobertson.reftagger.R
+import dev.mattrob.reftagger.tagger.RefTagger
 
 class MainActivity : AppCompatActivity() {
 	override fun onCreate(savedInstanceState: Bundle?) {

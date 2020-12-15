@@ -1,4 +1,4 @@
-package com.mattrobertson.reftagger.handler
+package dev.mattrob.reftagger.handler
 
 sealed class ClickHandler {
     abstract class BibleGatewayURL: ClickHandler() {

@@ -1,4 +1,4 @@
-package com.example.mattrobertson.reftagger
+package dev.example.mattrob.reftagger
 
 import org.junit.Test
 

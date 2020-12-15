@@ -1,4 +1,4 @@
-package com.mattrobertson.reftagger.tagger
+package dev.mattrob.reftagger.tagger
 
 import android.content.Intent
 import android.graphics.Typeface
@@ -12,10 +12,10 @@ import android.text.style.StyleSpan
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import com.mattrobertson.reftagger.handler.ClickHandler
-import com.mattrobertson.reftagger.handler.ClickHandler.*
-import com.mattrobertson.reftagger.network.fetchScriptureText
-import com.mattrobertson.reftagger.utils.createBibleGatewayUrl
+import dev.mattrob.reftagger.handler.ClickHandler
+import dev.mattrob.reftagger.handler.ClickHandler.*
+import dev.mattrob.reftagger.network.fetchScriptureText
+import dev.mattrob.reftagger.utils.createBibleGatewayUrl
 
 class RefTagger private constructor(builder: Builder) {
 

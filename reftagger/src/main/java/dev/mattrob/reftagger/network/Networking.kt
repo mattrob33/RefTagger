@@ -1,7 +1,7 @@
-package com.mattrobertson.reftagger.network
+package dev.mattrob.reftagger.network
 
-import com.mattrobertson.reftagger.handler.ClickHandler
-import com.mattrobertson.reftagger.utils.getBibleGatewayApiUrl
+import dev.mattrob.reftagger.handler.ClickHandler
+import dev.mattrob.reftagger.utils.getBibleGatewayApiUrl
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
