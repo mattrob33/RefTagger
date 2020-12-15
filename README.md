@@ -14,7 +14,7 @@ val taggedText = refTagger.tag(text)
 aTextView.text = taggedText
 ```
 
-**Note:** for a TextView to allow clickable links, you must provide a movement method that can handle this. This is very straightforward.
+**Note:** For a TextView to respond to clickable links, you must provide a movement method that can handle this, such as Android's `LinkMovementMethod`.
 
 ```kotlin
 aTextView.movementMethod = LinkMovementMethod()
@@ -104,7 +104,7 @@ val refTagger = RefTagger.Builder()
  
  This handler returns the actual biblical text (e.g., "For God so loved the world...") for the Scripture reference that the user clicked on (e.g., "John 3:16-17").
  
- Like `Builder.useDialog()` this approach places the burden of the network request (and threading, stream reading, error handling) on RefTagger so you don't have to worry about it. However, this approach also provides more flexibility in UI/UX since the UI/UX implementation is left up to you. This could be useful if you want to display the response within a BottomSheetDialog or some other view within your app's UI.
+ Like `Builder.useDialog()` this approach places the burden of the network request (and threading, stream reading, error handling) on RefTagger so you don't have to worry about it. However, this approach also provides more flexibility in UI/UX since the UI/UX implementation is left up to you. This could be useful if you want to display the biblical text within a BottomSheetDialog or some other view within your app's UI.
  
  ```kotlin
 val refTagger = RefTagger.Builder()
