@@ -1,6 +1,8 @@
 # RefTagger
 RefTagger is an Android library that transforms Bible references into clickable links, targeting the free BibleGateway API.
 
+<img src="reftagger_screenshot.png" width="190" height="400" />
+
 ## Transform References
 
 ```kotlin
@@ -32,8 +34,12 @@ The way that RefTagger responds to a click is extremely customizable. RefTagger 
  1. Show an alert dialog with the reference and biblical text (default)
  ```kotlin
 val refTagger = RefTagger.Builder()
-                  .useDialog() // typically unnecessary, as this is the default
+                  .useDialog()
                   .build()
+```
+Since a dialog is the default option, you can also just build the RefTagger without specifying any click handler.
+ ```kotlin
+val refTagger = RefTagger.Builder().build()
 ```
  2. Launch Bible Gateway in an external browser.
 ```kotlin
