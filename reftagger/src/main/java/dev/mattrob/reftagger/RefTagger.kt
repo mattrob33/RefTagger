@@ -1,5 +1,6 @@
-package dev.mattrob.reftagger.tagger
+package dev.mattrob.reftagger
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Typeface
 import android.net.Uri
@@ -12,10 +13,10 @@ import android.text.style.StyleSpan
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import dev.mattrob.reftagger.handler.ClickHandler
-import dev.mattrob.reftagger.handler.ClickHandler.*
-import dev.mattrob.reftagger.network.fetchScriptureText
-import dev.mattrob.reftagger.utils.createBibleGatewayUrl
+import dev.mattrob.reftagger.ClickHandler.*
+import dev.mattrob.reftagger.usecases.GetBibleGatewayApiUseCase
+import dev.mattrob.reftagger.usecases.GetBibleGatewayWebUrlUseCase
+import dev.mattrob.reftagger.usecases.GetScriptureTextUseCase
 
 class RefTagger private constructor(builder: Builder) {
 
@@ -28,6 +29,17 @@ class RefTagger private constructor(builder: Builder) {
     private var underlineLinks = builder.underlineLinks
     private var italicizeLinks = builder.italicizeLinks
     private var boldLinks = builder.boldLinks
+
+    private var appContext = builder.appContext
+
+    private val getBibleGatewayWebUrl = GetBibleGatewayWebUrlUseCase()
+    private val getBibleGatewayApi = GetBibleGatewayApiUseCase()
+
+    /**
+     * [appContext] is null unless disk cache was enabled. If context is null, the downstream methods
+     * will ignore the disk cache.
+     */
+    private val getScriptureText = GetScriptureTextUseCase(getBibleGatewayApi, appContext)
 
     companion object {
         private val REFERENCE_REGEX = "((?:(Genesis|Gen?|Gn|Exodus|Exod?|Ex|Leviticus|Le?v|Numbers|Nu?m|Nu|Deuteronomy|Deut?|Dt|Josh?ua|Josh?|Jsh|Judges|Ju?dg|Jg|Ru(?:th)?|Ru?t|(?:1|i|2|ii) ?Samuel|(?:1|i|2|ii) ?S(?:a|m)|(?:1|i|2|ii) ?Sam|(?:1|i|2|ii) ?Kin(?:gs?)?|(?:1|i|2|ii) ?Kgs|(?:1|i|2|ii) ?Chronicles|(?:1|i|2|ii) ?Chr(?:o?n)?|(?:1|i|2|ii) ?Cr|Ezra?|Nehemiah|Neh?|Esther|Esth?|Jo?b|Psalms?|Psa?|Proverbs|Pro?v?|Ecclesiastes|Ec(?:cl?)?|Song (?:O|o)f Solomon|Song (?:O|o)f Songs?|Son(?:gs?)?|SS|Isaiah?|Isa?|Jeremiah|Je?r|Lamentations|La(?:me?)?|Ezekiel|Eze?k?|Daniel|Da?n|Da|Hosea|Hos?|Hs|Jo(?:el?)?|Am(?:os?)?|Obadiah|Ob(?:ad?)?|Jon(?:ah?)?|Jnh|Mic(?:ah?)?|Mi|Nah?um|Nah?|Habakkuk|Hab|Zephaniah|Ze?ph?|Haggai|Hagg?|Hg|Zechariah|Ze?ch?|Malachi|Ma?l|Matthew|Matt?|Mt|Mark|Ma(?:r|k)|M(?:r|k)|Luke?|Lk|Lu?c|John|Jn|Ac(?:ts?)?|Romans|Ro?m|(?:1|i|2|ii) ?Corinthians|(?:1|i|2|ii) ?C(?:or?)?|Galatians|Gal?|Gl|Ephesians|Eph?|Philippians|Phil|Colossians|Co?l|(?:1|i|2|ii) ?Thessalonians|(?:1|i|2|ii) ?Th(?:e(?:ss?)?)?|(?:1|i|2|ii) ?Timothy|(?:1|i|2|ii) ?Tim|(?:1|i|2|ii) ?T(?:i|m)|Ti(?:tus)?|Ti?t|Philemon|Phl?m|Hebrews|Heb?|Jam(?:es)?|Jms|Jas|(?:1|i|2|ii) ?Peter|(?:1|i|2|ii) ?Pe?t?|(?:1|i|2|ii|3|iii) ?J(?:oh)?n?|Jude?|Revelations?|Rev|R(?:e|v))(?:.)? *?)?(?:(\\d*):)?(\\d+(?:(?:ff|f|\\w)|(?:\\s?(?:-|–|—)\\s?\\d+)?)))([^a-z0-9]*)".toRegex()
@@ -43,6 +55,8 @@ class RefTagger private constructor(builder: Builder) {
         internal var underlineLinks = true
         internal var italicizeLinks = false
         internal var boldLinks = false
+
+        internal var appContext: Context? = null
 
         fun useDialog(): Builder {
             handlerType = HandlerType.DIALOG
@@ -87,6 +101,11 @@ class RefTagger private constructor(builder: Builder) {
 
         fun boldLinks(bold: Boolean): Builder {
             boldLinks = bold
+            return this
+        }
+
+        fun enableDiskCache(applicationContext: Context): Builder {
+            appContext = applicationContext
             return this
         }
 
@@ -172,7 +191,7 @@ class RefTagger private constructor(builder: Builder) {
     private fun onClick(ref: String, view: View) {
         when (handlerType) {
             HandlerType.WEB_BROWSER -> {
-                val url = createBibleGatewayUrl(ref, defaultVersion)
+                val url = getBibleGatewayWebUrl(ref, defaultVersion)
                 val intent = Intent(Intent.ACTION_VIEW).apply {
                     data = Uri.parse(url)
                 }
@@ -193,13 +212,17 @@ class RefTagger private constructor(builder: Builder) {
                     }
                 }
 
-                fetchScriptureText(ref, defaultVersion, handler)
+                getScriptureText(ref, defaultVersion, handler)
             }
             HandlerType.CUSTOM -> {
                 when (val clickHandler = clickHandler) {
-                    is BibleGatewayURL -> clickHandler.onClick(createBibleGatewayUrl(ref, defaultVersion))
+                    is BibleGatewayURL -> {
+                        clickHandler.onClick(
+                            getBibleGatewayWebUrl(ref, defaultVersion)
+                        )
+                    }
                     is ScriptureReference -> clickHandler.onClick(ref)
-                    is ScriptureText -> fetchScriptureText(ref, defaultVersion, clickHandler)
+                    is ScriptureText -> getScriptureText(ref, defaultVersion, clickHandler)
                 }
             }
             HandlerType.IGNORE_CLICKS -> {}

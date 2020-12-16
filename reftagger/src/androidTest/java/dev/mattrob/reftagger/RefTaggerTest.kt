@@ -3,7 +3,6 @@ package dev.mattrob.reftagger
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.mattrob.reftagger.handler.RefWebBrowser
-import dev.mattrob.reftagger.tagger.RefTagger
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test

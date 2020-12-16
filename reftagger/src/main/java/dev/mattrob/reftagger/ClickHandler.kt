@@ -1,4 +1,4 @@
-package dev.mattrob.reftagger.handler
+package dev.mattrob.reftagger
 
 sealed class ClickHandler {
     abstract class BibleGatewayURL: ClickHandler() {
